@@ -3,112 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>命理占星大师 | Astro Bazi Pro</title>
+    <title>玄学全能大师 Pro | 命理·八字·塔罗</title>
     <style>
         :root {
-            --gold: #f1c40f;
-            --purple: #6c5ce7;
-            --bg: #0f0e17;
-            --card: #1b1a23;
-            --text: #a7a9be;
-            --bright: #fffffe;
+            --gold: #f1c40f; --purple: #6c5ce7; --bg: #0f0e17;
+            --card: #1b1a23; --text: #a7a9be; --bright: #fffffe; --accent: #e67e22;
         }
 
-        body { 
-            font-family: 'PingFang SC', system-ui, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            margin: 0; 
-            display: flex; 
-            justify-content: center; 
-            min-height: 100vh; 
-            padding: 20px;
-        }
-
-        .master-container { 
-            width: 100%; 
-            max-width: 400px; 
-            background: var(--card); 
-            padding: 30px; 
-            border-radius: 30px; 
-            border: 1px solid #2d2b38;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            text-align: center;
-        }
+        body { font-family: 'PingFang SC', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .master-container { width: 100%; max-width: 420px; background: var(--card); padding: 25px; border-radius: 30px; border: 1px solid #2d2b38; box-shadow: 0 20px 50px rgba(0,0,0,0.5); text-align: center; box-sizing: border-box; }
 
         h1 { color: var(--bright); font-size: 1.6rem; margin-bottom: 5px; letter-spacing: 2px; }
-        .tagline { color: var(--purple); font-size: 0.7rem; font-weight: bold; margin-bottom: 30px; text-transform: uppercase; }
+        .tagline { color: var(--purple); font-size: 0.75rem; font-weight: bold; margin-bottom: 25px; }
 
-        /* 输入区 */
-        .form-group { text-align: left; margin-bottom: 15px; }
-        label { font-size: 0.7rem; color: var(--purple); font-weight: bold; margin-bottom: 8px; display: block; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 0.7rem; color: var(--purple); font-weight: bold; margin-bottom: 5px; display: block; padding-left: 5px; }
         
-        input, select { 
-            width: 100%; 
-            padding: 15px; 
-            background: #0f0e17; 
-            border: 1px solid #2d2b38; 
-            border-radius: 12px; 
-            color: var(--bright); 
-            font-size: 1rem; 
-            outline: none;
-            box-sizing: border-box;
-        }
+        input, select { width: 100%; padding: 14px; background: #0f0e17; border: 1px solid #2d2b38; border-radius: 12px; color: var(--bright); font-size: 1rem; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--purple); }
 
-        .btn-calc { 
-            width: 100%; 
-            padding: 18px; 
-            background: linear-gradient(135deg, var(--purple), #e67e22); 
-            color: white; 
-            border: none; 
-            border-radius: 15px; 
-            font-size: 1.1rem; 
-            font-weight: bold; 
-            cursor: pointer; 
-            margin-top: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
+        .btn-calc { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--purple), var(--accent)); color: white; border: none; border-radius: 15px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3); }
 
-        /* 结果展示 */
-        #resultView { margin-top: 30px; display: none; animation: slideUp 0.5s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } }
+        #resultView { margin-top: 25px; display: none; animation: slideUp 0.6s ease forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        .info-row { display: flex; justify-content: space-around; background: #24222e; padding: 20px; border-radius: 20px; margin-bottom: 15px; }
-        .info-box h3 { font-size: 0.7rem; color: var(--gold); margin: 0 0 5px 0; }
-        .info-box p { font-size: 1.4rem; font-weight: 900; margin: 0; color: var(--bright); }
+        .res-card { background: #24222e; padding: 18px; border-radius: 20px; margin-bottom: 15px; border: 1px solid #363346; text-align: left; }
+        .res-header { font-size: 0.8rem; color: var(--gold); font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 6px; display: flex; justify-content: space-between; }
 
-        /* 八字排盘墙 */
-        .bazi-wall { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 10px; 
-        }
-        .pillar { 
-            background: #0f0e17; 
-            border: 1px solid #333; 
-            padding: 15px 5px; 
-            border-radius: 12px; 
-        }
-        .p-top { font-size: 0.6rem; color: #666; margin-bottom: 10px; }
-        .p-main { font-size: 1.5rem; font-weight: bold; color: var(--gold); line-height: 1.2; white-space: pre-line; }
+        /* 塔罗区 */
+        .tarot-box { display: flex; align-items: center; gap: 15px; }
+        .tarot-card { width: 75px; height: 120px; background: linear-gradient(45deg, #1a1a2e, #16213e); border: 2px solid var(--gold); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; box-shadow: 0 0 15px rgba(241,196,15,0.1); }
 
-        .footer { font-size: 0.6rem; color: #444; margin-top: 40px; border-top: 1px solid #2d2b38; padding-top: 15px; }
+        /* 运势条 */
+        .stat-row { display: flex; align-items: center; margin: 10px 0; font-size: 0.85rem; color: var(--bright); }
+        .stat-bar { flex: 1; height: 8px; background: #111; border-radius: 4px; margin-left: 10px; overflow: hidden; position: relative; }
+        .stat-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--gold)); width: 0; transition: width 1.5s cubic-bezier(0.1, 0.7, 1.0, 0.1); }
+
+        /* 八字网格 */
+        .bazi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
+        .pillar { background: #0f0e17; padding: 12px 5px; border-radius: 12px; text-align: center; border: 1px solid #444; }
+        .p-char { font-size: 1.4rem; font-weight: bold; color: var(--gold); line-height: 1.2; white-space: pre-line; }
+        .p-tag { font-size: 0.6rem; color: #666; margin-top: 5px; }
+
+        .highlight { color: var(--accent); font-weight: bold; }
+        .footer { font-size: 0.65rem; color: #444; margin-top: 30px; line-height: 1.6; }
     </style>
 </head>
 <body>
 
 <div class="master-container">
-    <h1>🔮 命理占星 Pro</h1>
-    <div class="tagline">Personal Destiny Analyzer</div>
+    <h1>🔮 玄学全能大师</h1>
+    <div class="tagline">TAROT · ASTRO · BAZI · FENGSHUI</div>
 
-    <div class="form-group">
-        <label>出生日期 (DATE OF BIRTH)</label>
-        <input type="date" id="inputDate">
+    <div class="input-group">
+        <label>出生日期 (Date of Birth)</label>
+        <input type="date" id="inDate">
     </div>
-
-    <div class="form-group">
-        <label>出生时辰 (BIRTH HOUR)</label>
-        <select id="inputHour">
+    
+    <div class="input-group">
+        <label>出生时辰 (Birth Hour)</label>
+        <select id="inHour">
             <option value="0">子时 (23:00-01:00)</option>
             <option value="1">丑时 (01:00-03:00)</option>
             <option value="3">寅时 (03:00-05:00)</option>
@@ -124,70 +78,86 @@
         </select>
     </div>
 
-    <button class="btn-calc" onclick="calculateDestiny()">开启命盘分析</button>
+    <button class="btn-calc" onclick="masterProcess()">开启全功能测算</button>
 
     <div id="resultView">
-        <div class="info-row">
-            <div class="info-box">
-                <h3>生肖 Zodiac</h3>
-                <p id="zodiacOutput">-</p>
-            </div>
-            <div style="border-left: 1px solid #363346;"></div>
-            <div class="info-box">
-                <h3>星座 Horoscope</h3>
-                <p id="horoOutput">-</p>
+        <div class="res-card">
+            <div class="res-header">🃏 灵魂塔罗 (Tarot) <span>命运指引</span></div>
+            <div class="tarot-box">
+                <div class="tarot-card" id="tEmoji">✨</div>
+                <div style="flex:1">
+                    <div style="font-weight:bold; color:var(--bright); font-size:1rem;" id="tName">抽取中...</div>
+                    <div style="font-size:0.8rem; margin-top:5px; line-height:1.4;" id="tDesc">正在读取星盘能量...</div>
+                </div>
             </div>
         </div>
 
-        <div class="pillar" style="margin-bottom: 10px; width: 100%; box-sizing: border-box;">
-            <div class="p-top" style="color: var(--purple)">四柱八字 (Bazi Chart)</div>
-            <div class="bazi-wall">
-                <div class="pillar-item">
-                    <div class="p-top">时柱</div>
-                    <div class="p-main" id="bz4">-</div>
+        <div class="res-card">
+            <div class="res-header">📅 今日流年运势 (Daily Luck)</div>
+            <div class="stat-row">事业运势 <div class="stat-bar"><div id="bar1" class="stat-fill"></div></div></div>
+            <div class="stat-row">财富机缘 <div class="stat-bar"><div id="bar2" class="stat-fill"></div></div></div>
+            <div class="stat-row">感情缘分 <div class="stat-bar"><div id="bar3" class="stat-fill"></div></div></div>
+        </div>
+
+        <div class="res-card">
+            <div class="res-header">✨ 核心命盘 (Main Chart)</div>
+            <div style="display: flex; justify-content: space-around; margin-bottom: 10px;">
+                <div style="text-align:center">
+                    <div style="font-size:0.7rem; color:#888">生肖</div>
+                    <div class="highlight" id="outZodiac" style="font-size:1.2rem">-</div>
                 </div>
-                <div class="pillar-item">
-                    <div class="p-top">日柱</div>
-                    <div class="p-main" id="bz3">-</div>
+                <div style="text-align:center">
+                    <div style="font-size:0.7rem; color:#888">星座</div>
+                    <div class="highlight" id="outHoro" style="font-size:1.2rem">-</div>
                 </div>
-                <div class="pillar-item">
-                    <div class="p-top">月柱</div>
-                    <div class="p-main" id="bz2">-</div>
-                </div>
-                <div class="pillar-item">
-                    <div class="p-top">年柱</div>
-                    <div class="p-main" id="bz1">-</div>
-                </div>
+            </div>
+            <div class="bazi-grid">
+                <div class="pillar"><div class="p-char" id="bz4">-</div><div class="p-tag">时柱</div></div>
+                <div class="pillar"><div class="p-char" id="bz3">-</div><div class="p-tag">日柱</div></div>
+                <div class="pillar"><div class="p-char" id="bz2">-</div><div class="p-tag">月柱</div></div>
+                <div class="pillar"><div class="p-char" id="bz1">-</div><div class="p-tag">年柱</div></div>
+            </div>
+        </div>
+
+        <div class="res-card">
+            <div class="res-header">☯️ 风水与缘分指南 (Feng Shui)</div>
+            <div style="font-size: 0.9rem; line-height: 1.8;">
+                <div>今日贵人：<span class="highlight" id="luckFriend">-</span></div>
+                <div>今日财位：<span class="highlight" id="luckDir">-</span></div>
+                <div>幸运颜色：<span class="highlight" id="luckColor">-</span></div>
+                <div id="masterNote" style="margin-top:8px; border-top:1px solid #333; padding-top:8px; font-size:0.8rem; color:var(--bright)"></div>
             </div>
         </div>
     </div>
 
     <div class="footer">
-        数据逻辑基于 Python main.py 算法转换<br>
-        © 2026 Kampar Astro Master
+        数据基于 Python 核心算法转换 · 严禁用于非法用途<br>
+        © 2026 UTAR Personal Project - Astro Master Pro
     </div>
 </div>
 
 <script>
-    function calculateDestiny() {
-        const dateStr = document.getElementById('inputDate').value;
-        const hour = parseInt(document.getElementById('inputHour').value);
+    const tarotDeck = [
+        { name: "愚者 (The Fool)", em: "🃏", desc: "纯粹的开始。今日适合打破常规，勇敢踏出第一步。" },
+        { name: "魔术师 (The Magician)", em: "🪄", desc: "拥有掌控全局的能力。你的才华正在被看见。" },
+        { name: "女祭司 (The Priestess)", em: "🌙", desc: "内在的直觉极准。静坐思考，你会得到答案。" },
+        { name: "力量 (Strength)", em: "🦁", desc: "温柔的力量胜过暴力。耐心是你今日最强的武器。" },
+        { name: "命运之轮 (Wheel of Fortune)", em: "🎡", desc: "转机即将出现。顺应变化，好运正在路上。" },
+        { name: "星辰 (The Star)", em: "⭐", desc: "充满希望的一天。你的愿望正在得到宇宙的回应。" }
+    ];
 
-        if (!dateStr) {
-            alert("请选择日期！");
-            return;
-        }
+    function masterProcess() {
+        const dStr = document.getElementById('inDate').value;
+        const hour = parseInt(document.getElementById('inHour').value);
+        if (!dStr) return alert("请输入出生日期");
 
-        const date = new Date(dateStr);
-        const y = date.getFullYear();
-        const m = date.getMonth() + 1;
-        const d = date.getDate();
+        const date = new Date(dStr);
+        const y = date.getFullYear(), m = date.getMonth()+1, d = date.getDate();
 
-        // 1. 生肖算法 (完全对应你的 Python 逻辑)
-        const zodiacs = ["猴", "鸡", "狗", "猪", "鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊"];
-        document.getElementById('zodiacOutput').innerText = zodiacs[y % 12];
+        // 1. 复刻 Python 星座 & 生肖逻辑
+        const zodiacs = ["猴","鸡","狗","猪","鼠","牛","虎","兔","龙","蛇","马","羊"];
+        document.getElementById('outZodiac').innerText = zodiacs[y % 12];
 
-        // 2. 星座算法 (完全对应你的 Python If-Else 逻辑)
         let horo = "";
         if ((m == 3 && d >= 21) || (m == 4 && d <= 19)) horo = "白羊";
         else if ((m == 4 && d >= 20) || (m == 5 && d <= 20)) horo = "金牛";
@@ -201,27 +171,38 @@
         else if ((m == 12 && d >= 22) || (m == 1 && d <= 19)) horo = "摩羯";
         else if ((m == 1 && d >= 20) || (m == 2 && d <= 18)) horo = "水瓶";
         else horo = "双鱼";
-        document.getElementById('horoOutput').innerText = horo;
+        document.getElementById('outHoro').innerText = horo + "座";
 
-        // 3. 八字算法 (干支映射)
-        const Gan = "甲乙丙丁戊己庚辛壬癸";
-        const Zhi = "子丑寅卯辰巳午未申酉戌亥";
-
-        // 年
-        let nG = Gan[(y-4)%10]; let nZ = Zhi[(y-4)%12];
-        // 月
-        let mG = Gan[((y%5)*2 + m + 1)%10]; let mZ = Zhi[(m+1)%12];
-        // 日 (基于基准日计算)
-        const base = new Date(1900, 0, 31);
-        let diff = Math.floor((date - base) / 86400000);
-        let rG = Gan[diff % 10]; let rZ = Zhi[(diff+4)%12];
-        // 时
-        let sG = Gan[((diff%5)*2 + Math.floor((hour+1)/2))%10]; let sZ = Zhi[Math.floor((hour+1)/2)%12];
+        // 2. 八字排盘 (干支)
+        const G = "甲乙丙丁戊己庚辛壬癸", Z = "子丑寅卯辰巳午未申酉戌亥";
+        let nG = G[(y-4)%10], nZ = Z[(y-4)%12];
+        let mG = G[((y%5)*2 + m + 1)%10], mZ = Z[(m+1)%12];
+        let diff = Math.floor((date - new Date(1900,0,31))/86400000);
+        let rG = G[diff%10], rZ = Z[(diff+4)%12];
+        let sG = G[((diff%5)*2 + Math.floor((hour+1)/2))%10], sZ = Z[Math.floor((hour+1)/2)%12];
 
         document.getElementById('bz1').innerText = nG + "\n" + nZ;
         document.getElementById('bz2').innerText = mG + "\n" + mZ;
         document.getElementById('bz3').innerText = rG + "\n" + rZ;
         document.getElementById('bz4').innerText = sG + "\n" + sZ;
+
+        // 3. 动态运势 & 风水 (基于随机种子)
+        const daySeed = new Date().getDate() + (y % 10);
+        document.getElementById('bar1').style.width = (daySeed * 7 % 40 + 60) + "%";
+        document.getElementById('bar2').style.width = (daySeed * 11 % 40 + 55) + "%";
+        document.getElementById('bar3').style.width = (daySeed * 9 % 40 + 65) + "%";
+
+        const friends = { "猴":"鼠、龙", "鸡":"蛇、牛", "狗":"虎、马", "猪":"羊、兔", "鼠":"猴、龙", "牛":"蛇、鸡", "虎":"马、狗", "兔":"猪、羊", "龙":"猴、鼠", "蛇":"鸡、牛", "马":"虎、狗", "羊":"猪、兔" };
+        document.getElementById('luckFriend').innerText = "属" + (friends[zodiacs[y%12]] || "缘分天定");
+        document.getElementById('luckDir').innerText = ["正东方", "正南方", "正西方", "正北方", "东南方", "西北方"][daySeed % 6];
+        document.getElementById('luckColor').innerText = ["宝蓝色", "朱红色", "鹅黄色", "纯白色", "翠绿色"][daySeed % 5];
+
+        // 4. 自动塔罗
+        const tIdx = (y + m + d) % tarotDeck.length;
+        document.getElementById('tEmoji').innerText = tarotDeck[tIdx].em;
+        document.getElementById('tName').innerText = tarotDeck[tIdx].name;
+        document.getElementById('tDesc').innerText = tarotDeck[tIdx].desc;
+        document.getElementById('masterNote').innerText = `提示：今日命理显示“${nG}${rZ}”之兆，最适合与${horo}座的人交流。`;
 
         document.getElementById('resultView').style.display = 'block';
     }
