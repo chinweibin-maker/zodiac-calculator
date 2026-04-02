@@ -3,94 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>金宝助手 Pro - 美食与运势</title>
+    <title>生肖命理大师 Pro</title>
+    <meta name="theme-color" content="#f1c40f">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2917/2917633.png">
+    
     <style>
-        :root { --primary: #ff4757; --secondary: #2f3542; --gold: #f1c40f; --google: #4285F4; }
-        body { font-family: -apple-system, system-ui, sans-serif; background: #f1f2f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .container { background: white; padding: 25px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 380px; }
+        :root { --gold: #f1c40f; --dark-gold: #b7950b; --bg: #fdfaf0; --text: #5d4037; }
+        body { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
         
-        /* 顶部导航切换 */
-        .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-        .nav-btn { flex: 1; padding: 12px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-food { background: #ffeae1; color: var(--primary); }
-        .btn-zodiac { background: #fef9e7; color: #b7950b; }
-        .nav-btn.active { background: var(--secondary); color: white; transform: scale(1.05); }
+        .container { background: white; padding: 30px; border-radius: 30px; box-shadow: 0 20px 50px rgba(183, 149, 11, 0.15); text-align: center; width: 100%; max-width: 400px; border: 2px solid #f9e79f; }
+        
+        h1 { color: var(--dark-gold); font-size: 1.8rem; margin-bottom: 5px; }
+        .subtitle { font-size: 0.8rem; color: #a1887f; margin-bottom: 25px; }
 
-        /* 内容区域控制 */
-        .content-section { display: none; }
-        .content-section.active { display: block; }
+        /* 输入区域 */
+        .input-group { margin-bottom: 20px; }
+        input { width: 100%; padding: 15px; border-radius: 15px; border: 1px solid #eee; font-size: 1.1rem; text-align: center; outline: none; transition: 0.3s; background: #fffcf0; box-sizing: border-box; }
+        input:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(241, 196, 15, 0.2); }
 
-        /* 美食展示区 (沿用之前样式) */
-        .display-box { background: #fffafa; border: 2px dashed #ffeaea; border-radius: 20px; padding: 20px; margin-bottom: 20px; min-height: 160px; display: flex; flex-direction: column; justify-content: center; }
-        #foodName { font-size: 1.6rem; color: var(--primary); font-weight: 900; }
+        /* 测算按钮 */
+        .calc-btn { width: 100%; padding: 18px; background: var(--gold); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 1.2rem; font-weight: bold; box-shadow: 0 8px 20px rgba(241, 196, 15, 0.3); transition: 0.3s; margin-top: 10px; }
+        .calc-btn:active { transform: scale(0.95); }
+
+        /* 结果展示区 */
+        #resultArea { margin-top: 30px; display: none; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .zodiac-card { background: linear-gradient(145deg, #fff9e6, #fff); padding: 20px; border-radius: 20px; border: 1px solid #f9e79f; }
+        .zodiac-name { font-size: 2.5rem; font-weight: 900; color: #d35400; margin: 10px 0; }
+        .zodiac-info { display: flex; justify-content: space-around; margin: 15px 0; font-size: 0.9rem; }
+        .info-badge { background: #fdf2e9; padding: 5px 12px; border-radius: 10px; color: #e67e22; font-weight: bold; }
+
+        .analysis-box { text-align: left; background: #fff; padding: 15px; border-radius: 15px; margin-top: 15px; font-size: 0.9rem; line-height: 1.6; border-left: 4px solid var(--gold); }
         
-        /* 生肖算命区 */
-        .zodiac-box { background: #fef9e7; border: 2px solid #f9e79f; border-radius: 20px; padding: 25px; text-align: left; }
-        .zodiac-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin: 10px 0; box-sizing: border-box; }
-        
-        .main-btn { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 1.1rem; font-weight: bold; box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3); }
-        .map-link { display: inline-block; margin-top: 15px; padding: 10px 20px; background: var(--google); color: white !important; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 0.8rem; }
+        /* 运势条 */
+        .stat-row { display: flex; align-items: center; margin: 8px 0; font-size: 0.8rem; }
+        .stat-bar { flex: 1; height: 8px; background: #eee; border-radius: 4px; margin-left: 10px; overflow: hidden; }
+        .stat-fill { height: 100%; background: var(--gold); border-radius: 4px; transition: width 1s ease-out; }
+
+        /* 历史记录 */
+        .history { margin-top: 30px; border-top: 1px solid #f1ece2; padding-top: 15px; text-align: left; }
+        .history-title { font-size: 0.75rem; color: #a1887f; font-weight: bold; margin-bottom: 10px; }
+        .history-item { font-size: 0.8rem; color: #8d6e63; padding: 5px 0; border-bottom: 1px solid #fafafa; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="nav-tabs">
-        <button class="nav-btn btn-food active" onclick="switchTab('food', this)">🍜 找美食</button>
-        <button class="nav-btn btn-zodiac" onclick="switchTab('zodiac', this)">🔮 算生肖</button>
+    <h1>🔮 生肖命理大师</h1>
+    <div class="subtitle">基于出生年份的五行性格深度测算</div>
+
+    <div class="input-group">
+        <input type="number" id="yearInput" placeholder="输入出生年份 (如 2004)" min="1900" max="2100">
+        <button class="calc-btn" onclick="analyzeZodiac()">开启天机</button>
     </div>
 
-    <div id="food-section" class="content-section active">
-        <div id="dbStatus" style="font-size:0.7rem; color:#2ecc71; margin-bottom:10px;">✅ 数据库已同步</div>
-        <div class="display-box">
-            <div id="foodName">准备摇一摇</div>
-            <div id="foodTip">想吃什么？摇摇手机看运气</div>
+    <div id="resultArea">
+        <div class="zodiac-card">
+            <div class="zodiac-info">
+                <span class="info-badge" id="resElement">五行：木</span>
+                <span class="info-badge" id="resYinYang">阴阳：阳</span>
+            </div>
+            <div class="zodiac-name" id="resAnimal">龙</div>
+            <div id="resYearRange">2004 岁次甲申</div>
+            
+            <div class="analysis-box">
+                <strong>性格画像：</strong>
+                <span id="resDesc">...</span>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <div class="stat-row">事业 <div class="stat-bar"><div id="barWork" class="stat-fill" style="width: 0%"></div></div></div>
+                <div class="stat-row">财运 <div class="stat-bar"><div id="barMoney" class="stat-fill" style="width: 0%"></div></div></div>
+                <div class="stat-row">桃花 <div class="stat-bar"><div id="barLove" class="stat-fill" style="width: 0%"></div></div></div>
+            </div>
         </div>
-        <button class="main-btn" id="pickBtn" onclick="handleMainClick()">帮我决定！</button>
-        <p style="font-size:0.6rem; color:#ccc; margin-top:10px;">支持微信感摇一摇</p>
     </div>
 
-    <div id="zodiac-section" class="content-section">
-        <div class="zodiac-box">
-            <h3 style="margin:0; color:#b7950b;">生肖查询 (Zodiac)</h3>
-            <p style="font-size:0.8rem; color:#7d6608;">输入你的出生年份，看看你的属相和运势</p>
-            <input type="number" id="birthYear" class="zodiac-input" placeholder="例如: 2004">
-            <button class="main-btn" style="background:#f1c40f; box-shadow:0 8px 20px rgba(241, 196, 15, 0.3);" onclick="calculateZodiac()">开始测算</button>
-            <div id="zodiacResult" style="margin-top:20px; line-height:1.6;"></div>
-        </div>
+    <div class="history">
+        <div class="history-title">🕒 最近查询记录</div>
+        <div id="historyList"></div>
     </div>
 </div>
 
 <script>
-    // --- 逻辑切换 ---
-    function switchTab(type, btn) {
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-        document.getElementById(type + '-section').classList.add('active');
+    // 🎵 提示音音效
+    const bellSfx = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3');
+    bellSfx.volume = 0.3;
+
+    // 1. 数据库定义
+    const zodiacData = {
+        "鼠": "机智灵敏，适应力极强，处事圆滑，直觉敏锐。",
+        "牛": "勤恳稳重，意志坚定，值得信赖，但有时稍显固执。",
+        "虎": "勇猛刚强，充满正义感，富有冒险精神和领导力。",
+        "兔": "温柔文静，心思缜密，热爱和平，审美能力极佳。",
+        "龙": "气场强大，充满抱负，是天生的领导者，极具智慧。",
+        "蛇": "冷静沉着，洞察力深邃，富有神秘感，善于思考。",
+        "马": "热情开朗，追求自由，行动力强，社交能力出色。",
+        "羊": "心地善良，富有同情心，外柔内刚，极具创造力。",
+        "猴": "聪明伶俐，幽默风趣，多才多艺，能快速解决问题。",
+        "鸡": "精明干练，讲究效率，坦诚自信，非常有前瞻性。",
+        "狗": "忠诚勇敢，责任心极强，待人真诚，直觉非常准。",
+        "猪": "豁达乐观，真诚正直，福气深厚，是一个极佳的伙伴。"
+    };
+
+    const elementTable = ["金", "金", "水", "水", "木", "木", "火", "火", "土", "土"];
+    const ganTable = ["庚", "辛", "壬", "癸", "甲", "乙", "丙", "丁", "戊", "己"];
+    const zhiTable = ["申", "酉", "戌", "亥", "子", "丑", "寅", "卯", "辰", "巳", "午", "未"];
+
+    // 2. 核心分析逻辑
+    function analyzeZodiac() {
+        const year = document.getElementById('yearInput').value;
+        if (!year || year < 1900) { alert("请输入正确的年份（1900年后）"); return; }
+
+        bellSfx.play().catch(()=>{});
+
+        // 计算逻辑
+        const animalList = ["猴", "鸡", "狗", "猪", "鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊"];
+        const animal = animalList[year % 12];
+        const element = elementTable[year % 10];
+        const gan = ganTable[year % 10];
+        const zhi = zhiTable[year % 12];
+        const yinYang = (year % 2 === 0) ? "阳" : "阴";
+
+        // 更新 UI
+        document.getElementById('resultArea').style.display = 'block';
+        document.getElementById('resAnimal').innerText = animal;
+        document.getElementById('resElement').innerText = `五行：${element}`;
+        document.getElementById('resYinYang').innerText = `阴阳：${yinYang}`;
+        document.getElementById('resYearRange').innerText = `${year}年 岁次 [${gan}${zhi}]`;
+        document.getElementById('resDesc').innerText = zodiacData[animal];
+
+        // 随机运势评分 (模拟 main.py 逻辑)
+        updateBars();
+        saveHistory(year, animal);
     }
 
-    // --- 生肖查询 (你的 Python 逻辑转换版) ---
-    function calculateZodiac() {
-        const year = document.getElementById('birthYear').value;
-        if (!year || year < 1900) { alert("请输入正确的年份"); return; }
-        
-        const animals = ["猴", "鸡", "狗", "猪", "鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊"];
-        const zodiac = animals[year % 12];
-        const resultEl = document.getElementById('zodiacResult');
-        
-        // 模拟 Python main.py 的逻辑输出
-        resultEl.innerHTML = `
-            <div style="font-size:1.2rem; font-weight:bold; color:#d35400;">你属 [${zodiac}]</div>
-            <div style="font-size:0.85rem; color:#555; margin-top:10px;">
-                💡 运势提示：${zodiac === '龙' ? '今年是你的本命年，万事小心！' : '今年运势平稳，适合在金宝探索更多美食。'}
+    function updateBars() {
+        const bars = ['barWork', 'barMoney', 'barLove'];
+        bars.forEach(id => {
+            const val = 60 + Math.floor(Math.random() * 40);
+            document.getElementById(id).style.width = val + '%';
+        });
+    }
+
+    // 3. 历史记录 (LocalStorage)
+    function saveHistory(year, animal) {
+        let history = JSON.parse(localStorage.getItem('zodiac_history') || '[]');
+        history.unshift({ year, animal, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) });
+        history = history.slice(0, 3);
+        localStorage.setItem('zodiac_history', JSON.stringify(history));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const list = document.getElementById('historyList');
+        const history = JSON.parse(localStorage.getItem('zodiac_history') || '[]');
+        list.innerHTML = history.map(h => `
+            <div class="history-item">
+                <span>${h.year}年 (${h.animal})</span>
+                <span>${h.time}</span>
             </div>
-        `;
+        `).join('') || '<div style="font-size:0.8rem;color:#ccc">暂无记录</div>';
     }
 
-    // --- 这里粘贴你之前完整的美食猎人 JS 代码 (init, startRolling, handleMainClick 等) ---
-    // 为了节省篇幅，请把刚才给你的“微信感优化版”里的 <script> 内容填在下面
-    // 注意：不要重复定义 init() 等已经存在的逻辑
+    window.onload = renderHistory;
 </script>
+
 </body>
 </html>
