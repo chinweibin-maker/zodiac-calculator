@@ -3,216 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>金宝全能助手 Pro | Kampar Ultimate Tool</title>
-    <meta name="theme-color" content="#6c5ce7">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3170/3170733.png">
-    
+    <title>命理占星大师 | Astro Bazi Pro</title>
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --food-red: #ff4757;
-            --zodiac-gold: #f1c40f;
-            --bg: #f1f2f6;
-            --card: #ffffff;
-            --text: #2d3436;
+            --gold: #f1c40f;
+            --purple: #6c5ce7;
+            --bg: #0f0e17;
+            --card: #1b1a23;
+            --text: #a7a9be;
+            --bright: #fffffe;
         }
 
-        /* 🌙 自动深色模式 */
-        @media (prefers-color-scheme: dark) {
-            :root { --bg: #1e272e; --card: #2f3640; --text: #f5f6fa; }
+        body { 
+            font-family: 'PingFang SC', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh; 
+            padding: 20px;
         }
 
-        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        .master-container { 
+            width: 100%; 
+            max-width: 400px; 
+            background: var(--card); 
+            padding: 30px; 
+            border-radius: 30px; 
+            border: 1px solid #2d2b38;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        h1 { color: var(--bright); font-size: 1.6rem; margin-bottom: 5px; letter-spacing: 2px; }
+        .tagline { color: var(--purple); font-size: 0.7rem; font-weight: bold; margin-bottom: 30px; text-transform: uppercase; }
+
+        /* 输入区 */
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 0.7rem; color: var(--purple); font-weight: bold; margin-bottom: 8px; display: block; }
         
-        /* 导航栏 */
-        .nav-bar { background: var(--card); display: flex; justify-content: space-around; padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-        .nav-item { cursor: pointer; font-weight: bold; font-size: 0.9rem; color: #888; transition: 0.3s; padding: 5px 15px; border-radius: 20px; }
-        .nav-item.active { background: var(--primary); color: white; }
+        input, select { 
+            width: 100%; 
+            padding: 15px; 
+            background: #0f0e17; 
+            border: 1px solid #2d2b38; 
+            border-radius: 12px; 
+            color: var(--bright); 
+            font-size: 1rem; 
+            outline: none;
+            box-sizing: border-box;
+        }
 
-        .container { flex: 1; padding: 20px; display: flex; justify-content: center; align-items: flex-start; }
-        .app-card { background: var(--card); width: 100%; max-width: 400px; padding: 25px; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; display: none; animation: fadeIn 0.4s ease; }
-        .app-card.active { display: block; }
+        .btn-calc { 
+            width: 100%; 
+            padding: 18px; 
+            background: linear-gradient(135deg, var(--purple), #e67e22); 
+            color: white; 
+            border: none; 
+            border-radius: 15px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } }
+        /* 结果展示 */
+        #resultView { margin-top: 30px; display: none; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } }
 
-        /* 公用样式 */
-        input, select { width: 100%; padding: 14px; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; box-sizing: border-box; background: var(--bg); color: var(--text); outline: none; }
-        .main-btn { width: 100%; padding: 16px; border: none; border-radius: 15px; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .main-btn:active { transform: scale(0.96); }
+        .info-row { display: flex; justify-content: space-around; background: #24222e; padding: 20px; border-radius: 20px; margin-bottom: 15px; }
+        .info-box h3 { font-size: 0.7rem; color: var(--gold); margin: 0 0 5px 0; }
+        .info-box p { font-size: 1.4rem; font-weight: 900; margin: 0; color: var(--bright); }
 
-        /* 美食猎人专用 */
-        .display-box { background: rgba(255, 71, 87, 0.05); border: 2px dashed var(--food-red); border-radius: 20px; padding: 20px; margin-bottom: 20px; min-height: 150px; display: flex; flex-direction: column; justify-content: center; }
-        .map-link { display: inline-block; margin-top: 15px; padding: 10px 20px; background: #4285F4; color: white !important; border-radius: 50px; text-decoration: none; font-size: 0.8rem; font-weight: bold; }
+        /* 八字排盘墙 */
+        .bazi-wall { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 10px; 
+        }
+        .pillar { 
+            background: #0f0e17; 
+            border: 1px solid #333; 
+            padding: 15px 5px; 
+            border-radius: 12px; 
+        }
+        .p-top { font-size: 0.6rem; color: #666; margin-bottom: 10px; }
+        .p-main { font-size: 1.5rem; font-weight: bold; color: var(--gold); line-height: 1.2; white-space: pre-line; }
 
-        /* 星盘专用 */
-        .astro-result { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 20px; border-radius: 20px; text-align: left; margin-top: 20px; }
-        .stat-bar { height: 8px; background: rgba(255,255,255,0.3); border-radius: 5px; margin-top: 5px; overflow: hidden; }
-        .stat-fill { height: 100%; background: white; width: 0; transition: 1s; }
+        .footer { font-size: 0.6rem; color: #444; margin-top: 40px; border-top: 1px solid #2d2b38; padding-top: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="nav-bar">
-        <div class="nav-item active" onclick="showApp('food', this)">🍜 美食猎人</div>
-        <div class="nav-item" onclick="showApp('astro', this)">✨ 个人星盘</div>
+<div class="master-container">
+    <h1>🔮 命理占星 Pro</h1>
+    <div class="tagline">Personal Destiny Analyzer</div>
+
+    <div class="form-group">
+        <label>出生日期 (DATE OF BIRTH)</label>
+        <input type="date" id="inputDate">
     </div>
 
-    <div class="container">
-        <div id="food-app" class="app-card active">
-            <h2 style="color: var(--food-red); margin-top: 0;">Kampar Hunter</h2>
-            <div id="dbStatus" style="font-size:0.7rem; color:#2ecc71; margin-bottom:10px; font-weight:bold;">● 1000+ 数据库就绪</div>
-            <div class="display-box">
-                <div id="foodName" style="font-size: 1.6rem; font-weight: 900;">Ready?</div>
-                <div id="foodTip" style="font-size: 0.85rem; color: #888; margin-top: 10px;">用力摇一摇或点击按钮</div>
+    <div class="form-group">
+        <label>出生时辰 (BIRTH HOUR)</label>
+        <select id="inputHour">
+            <option value="0">子时 (23:00-01:00)</option>
+            <option value="1">丑时 (01:00-03:00)</option>
+            <option value="3">寅时 (03:00-05:00)</option>
+            <option value="5">卯时 (05:00-07:00)</option>
+            <option value="7">辰时 (07:00-09:00)</option>
+            <option value="9">巳时 (09:00-11:00)</option>
+            <option value="11">午时 (11:00-13:00)</option>
+            <option value="13">未时 (13:00-15:00)</option>
+            <option value="15">申时 (15:00-17:00)</option>
+            <option value="17">酉时 (17:00-19:00)</option>
+            <option value="19">戌时 (19:00-21:00)</option>
+            <option value="21">亥时 (21:00-23:00)</option>
+        </select>
+    </div>
+
+    <button class="btn-calc" onclick="calculateDestiny()">开启命盘分析</button>
+
+    <div id="resultView">
+        <div class="info-row">
+            <div class="info-box">
+                <h3>生肖 Zodiac</h3>
+                <p id="zodiacOutput">-</p>
             </div>
-            <button class="main-btn" style="background: var(--food-red);" id="pickBtn" onclick="handleFoodClick()">帮我决定！</button>
-            <p style="font-size: 0.65rem; color: #aaa; margin-top: 15px;">已集成：微信感摇一摇、谷歌地图导航</p>
+            <div style="border-left: 1px solid #363346;"></div>
+            <div class="info-box">
+                <h3>星座 Horoscope</h3>
+                <p id="horoOutput">-</p>
+            </div>
         </div>
 
-        <div id="astro-app" class="app-card">
-            <h2 style="color: var(--primary); margin-top: 0;">Astro Tool</h2>
-            <div style="text-align: left; font-size: 0.85rem;">
-                <label>出生年份 (Year)</label>
-                <input type="number" id="birthYear" placeholder="2004">
-                <label>出生月份 (Month)</label>
-                <input type="number" id="birthMonth" placeholder="1-12">
-                <label>出生日期 (Day)</label>
-                <input type="number" id="birthDay" placeholder="1-31">
-            </div>
-            <button class="main-btn" style="background: var(--primary);" onclick="calculateAstro()">开始测算</button>
-            
-            <div id="astroResArea" style="display:none;">
-                <div class="astro-result">
-                    <div style="margin-bottom: 10px;">🏮 生肖：<b id="zodiacRes"></b></div>
-                    <div style="margin-bottom: 10px;">🌌 星座：<b id="horoRes"></b></div>
-                    <div style="font-size: 0.75rem; margin-top: 15px; opacity: 0.9;">
-                        今日幸运指数：
-                        <div class="stat-bar"><div id="luckyBar" class="stat-fill"></div></div>
-                    </div>
+        <div class="pillar" style="margin-bottom: 10px; width: 100%; box-sizing: border-box;">
+            <div class="p-top" style="color: var(--purple)">四柱八字 (Bazi Chart)</div>
+            <div class="bazi-wall">
+                <div class="pillar-item">
+                    <div class="p-top">时柱</div>
+                    <div class="p-main" id="bz4">-</div>
+                </div>
+                <div class="pillar-item">
+                    <div class="p-top">日柱</div>
+                    <div class="p-main" id="bz3">-</div>
+                </div>
+                <div class="pillar-item">
+                    <div class="p-top">月柱</div>
+                    <div class="p-main" id="bz2">-</div>
+                </div>
+                <div class="pillar-item">
+                    <div class="p-top">年柱</div>
+                    <div class="p-main" id="bz1">-</div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="footer">
+        数据逻辑基于 Python main.py 算法转换<br>
+        © 2026 Kampar Astro Master
+    </div>
+</div>
+
 <script>
-    // --- 全局变量与音效 ---
-    let allFoods = [];
-    let isRolling = false;
-    let hasShakePermission = false;
-    const rollSfx = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
-    const winSfx = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3');
+    function calculateDestiny() {
+        const dateStr = document.getElementById('inputDate').value;
+        const hour = parseInt(document.getElementById('inputHour').value);
 
-    // --- 1. 导航切换 ---
-    function showApp(appId, btn) {
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        btn.classList.add('active');
-        document.querySelectorAll('.app-card').forEach(c => c.classList.remove('active'));
-        document.getElementById(appId + '-app').classList.add('active');
-    }
-
-    // --- 2. 美食猎人逻辑 (集成之前所有功能) ---
-    async function initFoodDB() {
-        const url = 'https://raw.githubusercontent.com/chinweibin-maker/kampar-food-hunter-v2/main/data.json?t=' + Date.now();
-        try {
-            const r = await fetch(url);
-            const data = await r.json();
-            let fake = [];
-            for (let i = data.length + 1; i <= 1000; i++) fake.push({ "name": `金宝隐藏美食 #${i}`, "tip": `探索金宝第 ${i} 号秘密！` });
-            allFoods = data.concat(fake);
-        } catch (e) { console.log("Offline mode"); }
-    }
-
-    async function handleFoodClick() {
-        if (!hasShakePermission && typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
-            await DeviceMotionEvent.requestPermission();
-            initShake();
-            hasShakePermission = true;
+        if (!dateStr) {
+            alert("请选择日期！");
+            return;
         }
-        startFoodRoll();
+
+        const date = new Date(dateStr);
+        const y = date.getFullYear();
+        const m = date.getMonth() + 1;
+        const d = date.getDate();
+
+        // 1. 生肖算法 (完全对应你的 Python 逻辑)
+        const zodiacs = ["猴", "鸡", "狗", "猪", "鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊"];
+        document.getElementById('zodiacOutput').innerText = zodiacs[y % 12];
+
+        // 2. 星座算法 (完全对应你的 Python If-Else 逻辑)
+        let horo = "";
+        if ((m == 3 && d >= 21) || (m == 4 && d <= 19)) horo = "白羊";
+        else if ((m == 4 && d >= 20) || (m == 5 && d <= 20)) horo = "金牛";
+        else if ((m == 5 && d >= 21) || (m == 6 && d <= 21)) horo = "双子";
+        else if ((m == 6 && d >= 22) || (m == 7 && d <= 22)) horo = "巨蟹";
+        else if ((m == 7 && d >= 23) || (m == 8 && d <= 22)) horo = "狮子";
+        else if ((m == 8 && d >= 23) || (m == 9 && d <= 22)) horo = "处女";
+        else if ((m == 9 && d >= 23) || (m == 10 && d <= 23)) horo = "天秤";
+        else if ((m == 10 && d >= 24) || (m == 11 && d <= 22)) horo = "天蝎";
+        else if ((m == 11 && d >= 23) || (m == 12 && d <= 21)) horo = "射手";
+        else if ((m == 12 && d >= 22) || (m == 1 && d <= 19)) horo = "摩羯";
+        else if ((m == 1 && d >= 20) || (m == 2 && d <= 18)) horo = "水瓶";
+        else horo = "双鱼";
+        document.getElementById('horoOutput').innerText = horo;
+
+        // 3. 八字算法 (干支映射)
+        const Gan = "甲乙丙丁戊己庚辛壬癸";
+        const Zhi = "子丑寅卯辰巳午未申酉戌亥";
+
+        // 年
+        let nG = Gan[(y-4)%10]; let nZ = Zhi[(y-4)%12];
+        // 月
+        let mG = Gan[((y%5)*2 + m + 1)%10]; let mZ = Zhi[(m+1)%12];
+        // 日 (基于基准日计算)
+        const base = new Date(1900, 0, 31);
+        let diff = Math.floor((date - base) / 86400000);
+        let rG = Gan[diff % 10]; let rZ = Zhi[(diff+4)%12];
+        // 时
+        let sG = Gan[((diff%5)*2 + Math.floor((hour+1)/2))%10]; let sZ = Zhi[Math.floor((hour+1)/2)%12];
+
+        document.getElementById('bz1').innerText = nG + "\n" + nZ;
+        document.getElementById('bz2').innerText = mG + "\n" + mZ;
+        document.getElementById('bz3').innerText = rG + "\n" + rZ;
+        document.getElementById('bz4').innerText = sG + "\n" + sZ;
+
+        document.getElementById('resultView').style.display = 'block';
     }
-
-    function initShake() {
-        let lastX, lastY, lastZ, lastT = 0;
-        window.addEventListener('devicemotion', (e) => {
-            if (isRolling) return;
-            let acc = e.accelerationIncludingGravity;
-            let now = Date.now();
-            if ((now - lastT) > 100) {
-                let diff = now - lastT; lastT = now;
-                let speed = Math.abs(acc.x + acc.y + acc.z - lastX - lastY - lastZ) / diff * 10000;
-                if (speed > 60) startFoodRoll();
-                lastX = acc.x; lastY = acc.y; lastZ = acc.z;
-            }
-        });
-    }
-
-    function startFoodRoll() {
-        if (isRolling || allFoods.length === 0) return;
-        isRolling = true;
-        const nameEl = document.getElementById('foodName');
-        const tipEl = document.getElementById('foodTip');
-        const btn = document.getElementById('pickBtn');
-        btn.disabled = true;
-
-        let count = 0, max = 25 + Math.floor(Math.random()*10), speed = 50;
-        function run() {
-            const rand = allFoods[Math.floor(Math.random()*allFoods.length)];
-            nameEl.innerText = rand.name;
-            rollSfx.currentTime = 0; rollSfx.play().catch(()=>{});
-            count++;
-            if (count < max) {
-                if (count > max - 8) speed += 60;
-                setTimeout(run, speed);
-            } else {
-                winSfx.play().catch(()=>{});
-                const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rand.name + " Kampar")}`;
-                tipEl.innerHTML = `💡 ${rand.tip}<br><a href="${mapUrl}" target="_blank" class="map-link">📍 开启导航</a>`;
-                btn.disabled = false;
-                setTimeout(() => isRolling = false, 1500);
-            }
-        }
-        run();
-    }
-
-    // --- 3. 星盘逻辑 (Python 逻辑复刻) ---
-    function calculateAstro() {
-        const y = parseInt(document.getElementById('birthYear').value);
-        const m = parseInt(document.getElementById('birthMonth').value);
-        const d = parseInt(document.getElementById('birthDay').value);
-
-        if (!y || !m || !d) { alert("请输入完整生日！"); return; }
-
-        // 生肖
-        const zodiacs = ["猴 (Monkey)", "鸡 (Rooster)", "狗 (Dog)", "猪 (Pig)", "鼠 (Rat)", "牛 (Ox)", "虎 (Tiger)", "兔 (Rabbit)", "龙 (Dragon)", "蛇 (Snake)", "马 (Horse)", "羊 (Goat)"];
-        const zRes = zodiacs[y % 12];
-
-        // 星座 (完全复刻你的 Python If-Else)
-        let hRes = "";
-        if ((m == 3 && d >= 21) || (m == 4 && d <= 19)) hRes = "白羊座 (Aries)";
-        else if ((m == 4 && d >= 20) || (m == 5 && d <= 20)) hRes = "金牛座 (Taurus)";
-        else if ((m == 5 && d >= 21) || (m == 6 && d <= 21)) hRes = "双子座 (Gemini)";
-        else if ((m == 6 && d >= 22) || (m == 7 && d <= 22)) hRes = "巨蟹座 (Cancer)";
-        else if ((m == 7 && d >= 23) || (m == 8 && d <= 22)) hRes = "狮子座 (Leo)";
-        else if ((m == 8 && d >= 23) || (m == 9 && d <= 22)) hRes = "处女座 (Virgo)";
-        else if ((m == 9 && d >= 23) || (m == 10 && d <= 23)) hRes = "天秤座 (Libra)";
-        else if ((m == 10 && d >= 24) || (m == 11 && d <= 22)) hRes = "天蝎座 (Scorpio)";
-        else if ((m == 11 && d >= 23) || (m == 12 && d <= 21)) hRes = "射手座 (Sagittarius)";
-        else if ((m == 12 && d >= 22) || (m == 1 && d <= 19)) hRes = "摩羯座 (Capricorn)";
-        else if ((m == 1 && d >= 20) || (m == 2 && d <= 18)) hRes = "水瓶座 (Aquarius)";
-        else hRes = "双鱼座 (Pisces)";
-
-        document.getElementById('zodiacRes').innerText = zRes;
-        document.getElementById('horoRes').innerText = hRes;
-        document.getElementById('astroResArea').style.display = 'block';
-        
-        // 进度条动画
-        setTimeout(() => {
-            document.getElementById('luckyBar').style.width = (60 + Math.random()*40) + '%';
-        }, 100);
-    }
-
-    initFoodDB();
 </script>
 </body>
 </html>
